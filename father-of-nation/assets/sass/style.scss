@@ -1,0 +1,302 @@
+/*-----------------------------------------------
+   General Styling
+-----------------------------------------------*/
+*,
+::after,
+::before {
+    box-sizing: border-box
+}
+
+* {
+    outline: 0;
+}
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #333333;
+    background-color: #fff;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: geometricPrecision;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.banner-container {
+    width: 300px;
+    height: 250px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.5s ease-in-out;
+    user-select: none;
+    
+    &.blur {
+        filter: blur(5px);
+        transition: all 0.5s ease-in-out;
+    }
+}
+
+.bg-1 {
+    background-image: url('../images/bg-1.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+}
+.bg-2 {
+    background-image: url('../images/bg-2.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.map {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    z-index: 3;
+    bottom: 45px;
+    width: 109px;
+    text-align: center;
+    opacity: 0;
+    //transform: scale(0);
+    transform-origin: center;
+
+    &.map-2 {
+        width: 180px;
+        bottom: 0;
+    }
+
+    img {
+        display: block;
+        user-select: none;
+        pointer-events: none;
+    }
+
+    &:before {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 0;
+        top: 45%;
+        left: 45%;
+        transform: translate(-50%, -50%);
+        border: 5px solid #FFC107;
+        border-radius: 50%;
+        opacity: 0;
+        transform-origin: center;
+        animation-timing-function: linear;
+    }
+    &:after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 0;
+        top: 45%;
+        left: 45%;
+        transform: translate(-50%, -50%);
+        background: #FFC107;
+        border-radius: 50%;
+        opacity: 0;
+        transform-origin: center;
+        animation-timing-function: linear;
+    }
+
+    &.dropped-item {
+        &:before {
+            animation-name: ripple1;
+            animation-duration: 1s;
+            animation-fill-mode: both;
+            animation-iteration-count: 1;
+        }
+        &:after {
+            animation-name: ripple2;
+            animation-duration: 1s;
+            animation-fill-mode: both;
+            animation-iteration-count: 1;
+            animation-delay: 0.25s;
+        }
+    }
+}
+
+@keyframes ripple1 {
+    0% {
+        border-width: 1px;
+        opacity: 0.1;
+        width: 0;
+        height: 0;
+    }
+
+    25% {
+        border-width: 3px;
+        opacity: 0.5;
+    }
+
+    50% {
+        border-width: 3px;
+    }
+
+    75% {
+        border-width: 5px;
+        opacity: 0.1;
+    }
+
+    to {
+        width: 100px;
+        height: 100px;
+        opacity: 0;
+        border-width: 0;
+    }
+}
+@keyframes ripple2 {
+    0% {
+        opacity: 0.1;
+        width: 0;
+        height: 0;
+    }
+
+    25% {
+        opacity: 0.2;
+        width: 25px;
+        height: 25px;
+    }
+
+    50% {
+        opacity: 0.3;
+        width: 50px;
+        height: 50px;
+    }
+
+    75% {
+        width: 75px;
+        height: 75px;
+        opacity: 0.2;
+    }
+
+    to {
+        width: 100px;
+        height: 100px;
+        opacity: 0;
+        border-width: 0;
+    }
+}
+
+.item {
+    position: absolute;
+    bottom: 10px;
+    z-index: 3;
+    margin-bottom: -10px;
+    opacity: 0;
+    transform-origin: center;
+    user-select: none;
+
+    &.can-drag {
+        cursor: grab;
+    }
+
+    &.item-dragging {
+        cursor: grabbing;
+        z-index: 100;
+    }
+
+    &:hover {
+        img {
+            animation-name: itemBounce;
+            animation-duration: 1s;
+            animation-fill-mode: both;
+            animation-iteration-count: 1;
+        }
+    }
+
+    &.item-1 {
+        left: 40px;
+    }
+
+    &.item-2 {
+        left: 100px;
+    }
+
+    &.item-3 {
+        left: 160px;
+    }
+
+    &.item-4 {
+        left: 220px;
+    }
+}
+
+@keyframes itemBounce {
+    0%,60%,75%,90%,to {
+        animation-timing-function: cubic-bezier(.215,.61,.355,1)
+    }
+
+    0% {
+        transform: translate3d(0,0,0)
+    }
+
+    20% {
+        transform: translate3d(0,-10px,0)
+    }
+
+    40% {
+        transform: translate3d(0,5px,0)
+    }
+
+    60% {
+        transform: translate3d(0,-5px,0)
+    }
+
+    80% {
+        transform: translate3d(0,3px,0)
+    }
+
+    to {
+        transform: translateZ(0)
+    }
+}
+
+.first-slide-text {
+    z-index: 3;
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: 18px;
+    opacity: 0;
+    user-select: none;
+    pointer-events: none;
+
+    img {
+        display: inline-block;
+    }
+}
+
+.second-slide-text {
+    z-index: 4;
+    position: absolute;
+    text-align: center;
+    top: 70px;
+    width: 221px;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    opacity: 0;
+    user-select: none;
+    pointer-events: none;
+}
